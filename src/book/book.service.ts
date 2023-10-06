@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { Book } from './schemas/book.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
@@ -42,16 +42,34 @@ export class BookService {
     }
 
     async findById(id: string): Promise<Book> {
-        const book = await this.bookModel.findById(id);
+        const isValidId = mongoose.isValidObjectId(id);
 
-        if (!book) {
+        if (!isValidId) {
+            throw new BadRequestException('ID inválido');
+        }
+
+        const isFoundBook = await this.bookModel.findById(id);
+
+        if (!isFoundBook) {
             throw new NotFoundException('Livro não encontrado');
         }
 
-        return book;
+        return isFoundBook;
     }
 
     async updateById(id: string, book: Book): Promise<Book> {
+        const isValidId = mongoose.isValidObjectId(id);
+
+        if (!isValidId) {
+            throw new BadRequestException('ID inválido');
+        }
+
+        const isFoundBook = await this.bookModel.findById(id);
+
+        if (!isFoundBook) {
+            throw new NotFoundException('Livro não encontrado');
+        }
+
         return await this.bookModel.findByIdAndUpdate(id, book, {
             new: true,
             runValidators: true,
@@ -59,6 +77,18 @@ export class BookService {
     }
 
     async deleteById(id: string): Promise<Book> {
+        const isValidId = mongoose.isValidObjectId(id);
+
+        if (!isValidId) {
+            throw new BadRequestException('ID inválido');
+        }
+
+        const isFoundBook = await this.bookModel.findById(id);
+
+        if (!isFoundBook) {
+            throw new NotFoundException('Livro não encontrado');
+        }
+
         return await this.bookModel.findByIdAndDelete(id);
     }
 }
