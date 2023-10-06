@@ -28,8 +28,9 @@ module.exports = {
           singleQuote: true,
           traillingComma: "all",
           tabWidth: 4,
+          printWidth: 120
       },
     ],
-    "no-console": "error",
+    "no-console": "warn",
   },
 };
