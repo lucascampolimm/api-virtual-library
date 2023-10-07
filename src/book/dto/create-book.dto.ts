@@ -18,7 +18,7 @@ export class CreateBookDto {
     @IsNumber({}, { message: 'Preço está esperando um number' })
     readonly price: number;
 
-    @IsNotEmpty({ message: 'A categoria não pode estar vazio' })
+    @IsNotEmpty({ message: 'A categoria não pode estar vazia' })
     @IsEnum(Category, { message: 'Insira uma categoria válida' })
     readonly category: Category;
 }
