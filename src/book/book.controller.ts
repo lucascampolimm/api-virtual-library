@@ -17,38 +17,33 @@ export class BookController {
 
     @Post()
     @UseGuards(AuthGuard())
-    async createBook(
-        @Body()
-        book: CreateBookDto,
-        @Req() req,
-    ): Promise<Book> {
-        // console.log(req.user);
+    async createBook(@Body() book: CreateBookDto, @Req() req): Promise<Book> {
         return this.bookService.create(book, req.user);
     }
 
-    @Get(':id')
-    async getBook(
-        @Param('id')
-        id: string,
-    ): Promise<Book> {
+    @Get('author') // Rota para buscar por autor
+    async findByAuthor(@Query('name') name: string): Promise<Book[]> {
+        return this.bookService.findByAuthor(name);
+    }
+
+    @Get('genre') // Rota para buscar por gênero
+    async findByGenre(@Query('name') name: string): Promise<Book[]> {
+        return this.bookService.findByGenre(name);
+    }
+
+    // Mantenha as rotas por ID por último
+    @Get(':id') // Rota para buscar por ID
+    async getBook(@Param('id') id: string): Promise<Book> {
         return this.bookService.findById(id);
     }
 
     @Put(':id')
-    async updateBook(
-        @Param('id')
-        id: string,
-        @Body()
-        book: UpdateBookDto,
-    ): Promise<Book> {
+    async updateBook(@Param('id') id: string, @Body() book: UpdateBookDto): Promise<Book> {
         return this.bookService.updateById(id, book);
     }
 
     @Delete(':id')
-    async deleteBook(
-        @Param('id')
-        id: string,
-    ): Promise<Book> {
+    async deleteBook(@Param('id') id: string): Promise<Book> {
         return this.bookService.deleteById(id);
     }
 }

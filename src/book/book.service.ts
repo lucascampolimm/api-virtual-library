@@ -59,6 +59,21 @@ export class BookService {
 
         return isFoundBook;
     }
+    async findByAuthor(author: string): Promise<Book[]> {
+        const books = await this.bookModel.find({ author }).exec();
+        if (!books.length) {
+            throw new NotFoundException('Nenhum livro encontrado para este autor');
+        }
+        return books;
+    }
+
+    async findByGenre(genre: string): Promise<Book[]> {
+        const books = await this.bookModel.find({ genre }).exec();
+        if (!books.length) {
+            throw new NotFoundException('Nenhum livro encontrado para este gênero');
+        }
+        return books;
+    }
 
     async updateById(id: string, book: Book): Promise<Book> {
         const isValidId = mongoose.isValidObjectId(id);
