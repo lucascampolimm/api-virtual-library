@@ -20,10 +20,6 @@ export class UpdateBookDto {
     readonly price: number;
 
     @IsOptional()
-    @IsNumber({}, { message: 'Genêro está esperando uma string' })
-    readonly genre: string;
-
-    @IsOptional()
     @IsEnum(Category, { message: 'Insira uma categoria válida' })
     readonly category: Category;
 

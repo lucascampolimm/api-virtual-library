@@ -27,8 +27,6 @@ export class Book {
 
     @Prop()
     category: Category;
-    @Prop() // Adicione o atributo 'genre' aqui
-    genre: string;
 
     //  Armazena o ID do usuário no banco
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })

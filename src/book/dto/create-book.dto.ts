@@ -23,10 +23,6 @@ export class CreateBookDto {
     @IsEnum(Category, { message: 'Insira uma categoria válida' })
     readonly category: Category;
 
-    @IsNotEmpty({ message: 'O gênero não pode estar vazio' })
-    @IsString({ message: 'Gênero está esperando uma string' })
-    readonly genre: string; // Adicione o atributo 'genre' aqui
-
     @IsEmpty({ message: 'Você não pode passsar o ID do usuário' })
     readonly user: User;
 }
