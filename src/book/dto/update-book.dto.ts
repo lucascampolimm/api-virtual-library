@@ -25,4 +25,7 @@ export class UpdateBookDto {
 
     @IsEmpty({ message: 'Você não pode passsar o ID do usuário' })
     readonly user: User;
+
+    @IsEmpty({ message: 'Você não pode passsar o status do livro' })
+    readonly isAvailable: boolean;
 }

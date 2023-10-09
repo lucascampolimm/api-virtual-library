@@ -31,6 +31,9 @@ export class Book {
     //  Armazena o ID do usuário no banco
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
     user: User;
+
+    @Prop({ default: true })
+    isAvailable: boolean;
 }
 
 export const BookSchema = SchemaFactory.createForClass(Book);
