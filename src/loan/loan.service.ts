@@ -4,20 +4,26 @@ import { InjectModel } from '@nestjs/mongoose';
 import { CreateLoanDto } from './dto/create-loan.dto';
 import { Loan } from './schemas/loan.schema';
 import { BookService } from '../book/book.service';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class LoanService {
     constructor(
         @InjectModel('Loan') private readonly loanModel: Model<Loan>,
         private readonly bookService: BookService,
+        private readonly authService: AuthService,
     ) {}
 
     async createLoan(createLoanDto: CreateLoanDto): Promise<Loan> {
         // Verifique se o livro existe antes de criar o empréstimo
         const bookExists = await this.bookService.bookExists(createLoanDto.book);
+        const userExists = await this.authService.userExists(createLoanDto.user);
 
         if (!bookExists) {
             throw new NotFoundException(`Livro com ID '${createLoanDto.book}' não encontrado`);
+        }
+        if (!userExists) {
+            throw new NotFoundException(`Usuário com ID '${createLoanDto.user}' não encontrado`);
         }
 
         // Verifique se o livro já está emprestado

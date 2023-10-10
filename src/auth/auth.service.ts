@@ -14,7 +14,10 @@ export class AuthService {
         private userModel: Model<User>,
         private jwtService: JwtService,
     ) {}
-
+    async userExists(userId: string): Promise<boolean> {
+        const user = await this.userModel.findById(userId).exec();
+        return !!user;
+    }
     async signUp(signUpDto: SignUpDto): Promise<{ token: string }> {
         const { name, email, password } = signUpDto;
 
