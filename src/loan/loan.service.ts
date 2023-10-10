@@ -49,11 +49,13 @@ export class LoanService {
         return this.loanModel.find().exec();
     }
 
-    async returnLoan(id: string): Promise<Loan> {
+    async returnLoan(id: string): Promise<void> {
         const loan = await this.getLoanById(id);
         loan.returned = true;
         await loan.save();
-        return loan;
+
+        // Remova o empréstimo do banco de dados
+        await this.loanModel.deleteOne({ _id: id });
     }
 
     async isBookAlreadyLoaned(bookId: string): Promise<boolean> {
