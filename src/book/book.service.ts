@@ -94,4 +94,8 @@ export class BookService {
 
         return await this.bookModel.findByIdAndDelete(id);
     }
+    async bookExists(bookId: string): Promise<boolean> {
+        const book = await this.bookModel.findById(bookId).exec();
+        return !!book; // Retorna verdadeiro se o livro existe, falso se não existe
+    }
 }
