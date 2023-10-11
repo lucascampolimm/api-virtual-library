@@ -23,7 +23,13 @@ export class LoanController {
     }
 
     @Put(':id/return')
-    async returnLoan(@Param('id') id: string): Promise<Loan> {
-        return this.loanService.returnLoan(id);
+    async returnLoan(@Param('id') id: string): Promise<{ message: string }> {
+        const loan = await this.loanService.returnLoan(id);
+
+        if (loan !== null) {
+            return { message: 'Livro devolvido com sucesso.' };
+        } else {
+            return { message: 'Empréstimo não encontrado.' };
+        }
     }
 }
