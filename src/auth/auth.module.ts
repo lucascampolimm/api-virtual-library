@@ -7,7 +7,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema } from './schemas/user.schema';
 import { ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './jwt.strategy';
-import { LoanSchema } from 'src/loan/schemas/loan.schema';
+import { LoanSchema } from '../loan/schemas/loan.schema';
 
 @Module({
     imports: [

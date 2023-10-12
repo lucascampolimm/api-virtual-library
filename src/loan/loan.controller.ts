@@ -27,9 +27,9 @@ export class LoanController {
         const loan = await this.loanService.returnLoan(id);
 
         if (loan !== null) {
-            return { message: 'Livro devolvido com sucesso.' };
+            return { message: 'Livro devolvido com sucesso' };
         } else {
-            return { message: 'Empréstimo não encontrado.' };
+            return { message: 'Empréstimo não encontrado' };
         }
     }
 }

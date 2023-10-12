@@ -59,8 +59,9 @@ export class AuthService {
         return { token };
     }
     async getUserLoans(userId: string): Promise<Loan[]> {
-        // Recupere os empréstimos do usuário com base no ID do usuário
+        // Recupera os empréstimos com base no ID do usuário
         const loans = await this.loanModel.find({ user: userId }).exec();
+
         return loans;
     }
 }

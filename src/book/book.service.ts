@@ -15,12 +15,12 @@ export class BookService {
     async findAll(query: Query): Promise<Book[]> {
         // console.log(query);
 
-        // Limite de 2 livros por página.
+        // Limite de 2 livros por página
         const resPerPage = 2;
         const currentPage = Number(query.page) || 1;
         const skip = resPerPage * (currentPage - 1);
 
-        // Filtrar por autor.
+        // Filtrar por autor
         const keyword = query.keyword
             ? {
                   author: {
@@ -96,6 +96,7 @@ export class BookService {
     }
     async bookExists(bookId: string): Promise<boolean> {
         const book = await this.bookModel.findById(bookId).exec();
-        return !!book; // Retorna verdadeiro se o livro existe, falso se não existe
+
+        return !!book;
     }
 }

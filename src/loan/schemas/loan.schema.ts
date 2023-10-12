@@ -1,12 +1,11 @@
 import { Schema, Document } from 'mongoose';
 
 export interface Loan extends Document {
-    book: string; // ou mongoose.Schema.Types.ObjectId, se o livro também for um documento do Mongoose
-    user: string; // ou mongoose.Schema.Types.ObjectId, se o usuário também for um documento do Mongoose
+    book: string;
+    user: string;
     loanDate: Date;
     dueDate: Date;
     returned: boolean;
-    // Outros campos de empréstimo, se necessário
 }
 
 export const LoanSchema = new Schema({
@@ -15,5 +14,4 @@ export const LoanSchema = new Schema({
     loanDate: { type: Date, default: Date.now, required: true },
     dueDate: { type: Date, required: true },
     returned: { type: Boolean, default: false },
-    // Outros campos de empréstimo, se necessário
 });
