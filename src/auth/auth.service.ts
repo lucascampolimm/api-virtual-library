@@ -6,12 +6,15 @@ import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { SignUpDto } from './dto/signup.dto';
 import { LoginDto } from './dto/login.dto';
+import { Loan } from '../loan/schemas/loan.schema';
 
 @Injectable()
 export class AuthService {
     constructor(
         @InjectModel(User.name)
         private userModel: Model<User>,
+        @InjectModel('Loan')
+        private loanModel: Model<Loan>,
         private jwtService: JwtService,
     ) {}
     async userExists(userId: string): Promise<boolean> {
@@ -54,5 +57,10 @@ export class AuthService {
         const token = this.jwtService.sign({ id: user._id });
 
         return { token };
+    }
+    async getUserLoans(userId: string): Promise<Loan[]> {
+        // Recupere os empréstimos do usuário com base no ID do usuário
+        const loans = await this.loanModel.find({ user: userId }).exec();
+        return loans;
     }
 }

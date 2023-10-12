@@ -15,25 +15,31 @@ export class LoanService {
     ) {}
 
     async createLoan(createLoanDto: CreateLoanDto): Promise<Loan> {
+        const { book: bookId, user: userId } = createLoanDto;
+
         // Verifique se o livro existe antes de criar o empréstimo
-        const bookExists = await this.bookService.bookExists(createLoanDto.book);
-        const userExists = await this.authService.userExists(createLoanDto.user);
+        const bookExists = await this.bookService.bookExists(bookId);
+        const userExists = await this.authService.userExists(userId);
 
         if (!bookExists) {
-            throw new NotFoundException(`Livro com ID '${createLoanDto.book}' não encontrado`);
+            throw new NotFoundException(`Livro com ID '${bookId}' não encontrado`);
         }
         if (!userExists) {
-            throw new NotFoundException(`Usuário com ID '${createLoanDto.user}' não encontrado`);
+            throw new NotFoundException(`Usuário com ID '${userId}' não encontrado`);
         }
 
         // Verifique se o livro já está emprestado
-        const isBookAlreadyLoaned = await this.isBookAlreadyLoaned(createLoanDto.book);
+        const isBookAlreadyLoaned = await this.isBookAlreadyLoaned(bookId);
 
         if (isBookAlreadyLoaned) {
             throw new BadRequestException('Livro já emprestado.');
         }
 
-        const createdLoan = new this.loanModel(createLoanDto);
+        // Agora, crie o empréstimo associando-o ao usuário
+        const createdLoan = new this.loanModel({
+            ...createLoanDto,
+            user: userId, // Associe o empréstimo ao usuário correto
+        });
         return createdLoan.save();
     }
 
